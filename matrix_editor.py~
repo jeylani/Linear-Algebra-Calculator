@@ -1,0 +1,71 @@
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+
+class MatrixEditor:
+    def __init__(self,name='?',vecteur=[],nbLigne=2, nbCol=2):
+        self.row=nbLigne
+        self.col=nbCol
+        self.builder=Gtk.Builder()
+        self.builder.add_from_file("matrix_input_dialog.glade")
+        self.dialog=self.builder.get_object('dialog')
+        self.save_button=self.dialog.add_button('Enregistrer',Gtk.ResponseType.OK)
+        self.cancel_button=self.dialog.add_button('Annuler',Gtk.ResponseType.CANCEL)
+        self.matrix_grid=self.builder.get_object("matrix_grid")
+        self.row_spinbutton=self.builder.get_object("row_spinbutton")
+        self.row_spinbutton.connect("value-changed",self.on_row_changed)
+        self.row_spinbutton.set_value(self.row)
+        self.col_spinbutton=self.builder.get_object("col_spinbutton")
+        self.col_spinbutton.connect("value-changed",self.on_col_changed)
+        self.col_spinbutton.set_value(self.col)
+        self.name_entry=self.builder.get_object("name_entry")
+        self.name_entry.set_text(name)
+        
+        for i in range(self.row):
+            self.matrix_grid.insert_row(i)
+            for j in range(self.col):
+               """self.matrix_grid.insert_column(j)"""
+               entry=Gtk.Entry()
+               pos=self.position(i,j)
+               if pos>=len(vecteur):
+                    entry.set_text("0.0")
+               else:
+                    entry.set_text(str(vecteur[pos]))
+               entry.show()
+               self.matrix_grid.attach(entry,j,i,1,1) 
+    def position(self,i,j):
+          return i*self.col+j
+    def run(self):
+          return self.dialog.run()
+    def destroy(self):
+          self.dialog.destroy()
+    def get_object(self):
+          n=self.row
+          p=self.col
+          name=self.name_entry.get_text()
+          m=[]
+          for j in range(p):
+              for i in range(n):
+                  entry=self.matrix_grid.get_child_at(j,i)
+                  m.append(float(entry.get_text()))
+          return {"name":name,"vecteur":m,"row":n,"col":p}
+    def add_rows(self,n,data=[]):
+          for i in range(n):
+             self.matrix_grid.insert_row(self.row)
+             for j in range(self.col):
+                 entry=Gtk.Entry()
+                 pos=self.position(i,j)
+                 if pos>=len(data):
+                    entry.set_text("0.0")
+                 else:
+                    entry.set_text(str(data[pos]))
+                 entry.show()
+                 self.matrix_grid.attach(entry,j,self.row,1,1) 
+             self.row+=1
+    def on_row_changed(self, spinbutton):
+          print(spinbutton.get_value_as_int())
+          value=spinbutton.get_value_as_int()
+          self.add_rows(2)
+    def on_col_changed(self, spinbutton):
+          print(spinbutton.get_value_as_int())
+   
