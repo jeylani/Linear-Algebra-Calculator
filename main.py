@@ -15,14 +15,6 @@ class LAC_ApplicationWindow:
 		 
 		 self.window=self.builder.get_object("window")
 		 
-		 handlers={
-		 	"on_envoyer_button_clicked":self.on_envoyer_button_clicked,
-		 	"on_add_matrix_button_clicked":self.on_add_matrix_button_clicked,
-		 	"on_ajouter_resultat_button_clicked":self.on_ajouter_resultat_button_clicked,
-		 	"on_delete_matrix_button_clicked":self.on_delete_matrix_button_clicked,
-		 	"on_edit_matrix_button_clicked":self.on_edit_matrix_button_clicked,
-		 }
-		 self.builder.connect_signals(handlers)
 		 self.builder.connect_signals(Handler(self))
 		   
 		 self.ajouter_resultat_button=self.builder.get_object('ajouter_resultat_button')
@@ -66,8 +58,6 @@ class LAC_ApplicationWindow:
 		 self.resultat_grid1=self.builder.get_object("resultat_grid1")
 		 self.resultat_grid2=self.builder.get_object("resultat_grid2")
 		 
-		 
-		 self.window.connect("delete-event",Gtk.main_quit)
 	def on_add_matrix_button_clicked(self,button):
 		 dialog=MatrixEditorDialog()
 		 response=dialog.run()
