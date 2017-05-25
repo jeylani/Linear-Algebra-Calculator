@@ -12,11 +12,8 @@ class LAC_ApplicationWindow:
 		 self.matrix_list={}
 		 self.builder=Gtk.Builder()
 		 self.builder.add_from_file("LAC_Applicationwindow.glade")
-		 
-		 self.window=self.builder.get_object("window")
-		 
-		 self.builder.connect_signals(Handler(self))
-		   
+	 
+		 self.window=self.builder.get_object("window")  
 		 self.ajouter_resultat_button=self.builder.get_object('ajouter_resultat_button')
 		 self.delete_matrix_button=self.builder.get_object('delete_matrix_button')
 		 self.edit_matrix_button=self.builder.get_object('edit_matrix_button')
@@ -44,8 +41,6 @@ class LAC_ApplicationWindow:
 		 self.treeview.append_column(column)
 		 column=Gtk.TreeViewColumn("Nbr Col",renderer,text=2)
 		 self.treeview.append_column(column)
-		 selection=self.treeview.get_selection()
-		 selection.connect('changed',self.on_selection_changed)
 		 self.window.show_all()
 		 
 		 self.ajouter_resultat_button.hide()
@@ -58,6 +53,8 @@ class LAC_ApplicationWindow:
 		 self.resultat_grid1=self.builder.get_object("resultat_grid1")
 		 self.resultat_grid2=self.builder.get_object("resultat_grid2")
 		 
+	 	 self.builder.connect_signals(Handler(self))
+		 	 
 	def on_add_matrix_button_clicked(self,button):
 		 dialog=MatrixEditorDialog()
 		 response=dialog.run()
@@ -87,10 +84,10 @@ class LAC_ApplicationWindow:
 		self.resultat_grid1.hide()
 		self.resultat_grid2.hide()
 		self.ajouter_resultat_button.show()
-	    	if self.current_operation=="DIAGONALISER":
+	    	if self.current_operation=="DIAG":
 	    		self.resultat_grid1.show()
 	    		self.resultat_grid2.show()
-		elif self.current_operation in ("SUITE","EQUADIF"):
+		elif self.current_operation in ("SRL","EDL"):
 	    		self.resultat_label.show()
 	    	else:
 	    		self.resultat_grid1.show()
@@ -117,7 +114,6 @@ class LAC_ApplicationWindow:
 		 if treeiter!=None:
 		    self.delete_matrix_button.set_sensitive(True)
 		    self.edit_matrix_button.set_sensitive(True)
-		    self.treeiter=treeiter
 		 else:
 		    self.delete_matrix_button.set_sensitive(False)
 		    self.edit_matrix_button.set_sensitive(False)
@@ -131,7 +127,14 @@ class LAC_ApplicationWindow:
 	def on_radiobutton_group_changed(self,radiobutton):
     		print radiobutton.get_label()
 	def saisir_operandes(self,name,operandes,msg):
- 	        """self.resultat_box.hide()"""
+ 	        self.deuxieme_op_box.show()
+ 	        self.comboboxtext1.hide()
+ 	        self.entry1.hide()
+	        self.deuxieme_op_label.hide()
+ 	        self.entry2.hide()
+ 	        self.comboboxtext2.hide()
+ 	        self.spinbutton.hide()
+ 	        
  	        self.current_operation=name
  	        self.operation_label.set_text(msg)
  	        if operandes=="MATRICE":
@@ -145,11 +148,25 @@ class LAC_ApplicationWindow:
 	           	self.deuxieme_op_label.set_text("Une autre famille de vecteur")
 	           	self.entry2.show()
 	        elif operandes=="DEUX_MATRICES":
-	        	self.premiere_op_label.set_text("Premiere operande")
+	        	self.premiere_op_label.set_text("Premiere Matrice")
 	           	self.comboboxtext1.show()
 		           	
 	           	self.deuxieme_op_label.show()
-	           	self.deuxieme_op_label.set_text("Deuxieme operande")
+	           	self.deuxieme_op_label.set_text("Deuxieme Matrice")
+	           	self.comboboxtext2.show()
+	        elif operandes=="DEUX_VECTEURS":
+	        	self.premiere_op_label.set_text("Premier vecteur")
+	           	self.comboboxtext1.show()
+		           	
+	           	self.deuxieme_op_label.show()
+	           	self.deuxieme_op_label.set_text("Deuxieme vecteur")
+	           	self.comboboxtext2.show()
+	        elif operandes=="MIXTE":
+	        	self.premiere_op_label.set_text("Premier Operande")
+	           	self.comboboxtext1.show()
+		           	
+	           	self.deuxieme_op_label.show()
+	           	self.deuxieme_op_label.set_text("Deuxieme Operande")
 	           	self.comboboxtext2.show()
 	        elif operandes=="MATRICE_ENTIER":
 	        	self.premiere_op_label.set_text("Choisir une matrice")

@@ -481,6 +481,7 @@ without any warranty.
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
+                                <signal name="toggled" handler="on_srl_radiobutton_toggled" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">2</property>
@@ -545,6 +546,7 @@ without any warranty.
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
+                                <signal name="toggled" handler="on_trans_radiobutton_toggled" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">0</property>
@@ -625,6 +627,7 @@ without any warranty.
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
+                                <signal name="toggled" handler="on_puiss_radiobutton_toggled" swapped="no"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -897,7 +900,9 @@ without any warranty.
                         <property name="tooltip_column">0</property>
                         <property name="activate_on_single_click">True</property>
                         <child internal-child="selection">
-                          <object class="GtkTreeSelection" id="treeview-selection"/>
+                          <object class="GtkTreeSelection" id="treeview-selection">
+                            <signal name="changed" handler="on_treeview_selection_changed" swapped="no"/>
+                          </object>
                         </child>
                       </object>
                       <packing>
@@ -1306,11 +1311,5 @@ without any warranty.
         <col id="1">inert</col>
       </row>
     </data>
-  </object>
-  <object class="GtkTextBuffer" id="textbuffer">
-    <property name="text" translatable="yes">
-
-
-</property>
   </object>
 </interface>
