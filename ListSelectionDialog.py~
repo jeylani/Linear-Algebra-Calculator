@@ -1,0 +1,54 @@
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+
+class ListSelectionDialog:
+	def __init__(self,title,l):
+		self.builder=Gtk.Builder()
+		self.builder.add_from_file("ListSelectionDialog.glade")
+		self.dialog=self.builder.get_object('dialog')
+
+		button=self.dialog.add_button('Valider',Gtk.ResponseType.OK)
+		button.connect("clicked",self.on_ok_button_clicked)
+		self.dialog.add_button('Annuler',Gtk.ResponseType.CANCEL)
+
+		self.label=self.builder.get_object("label")
+
+		self.label.set_text(title)
+
+		self.treeview=self.builder.get_object("treeview")
+		self.liststore=Gtk.ListStore(str,int,bool)
+		for item in l:
+			item.append(False)
+			self.liststore.append(item)
+		
+		self.treeview.set_model(self.liststore)
+		renderer=Gtk.CellRendererText()
+		column=Gtk.TreeViewColumn("Nom",renderer,text=0)
+		self.treeview.append_column(column)
+		column=Gtk.TreeViewColumn("Dimension",renderer,text=1)
+		self.treeview.append_column(column)
+		renderer_toggle=Gtk.CellRendererToggle()
+		"""renderer_toggle.connect("toggled",self.on_cell_toggled)"""
+		column=Gtk.TreeViewColumn("Selectionner",renderer_toggle,text=2)
+		self.treeview.append_column(column)
+	def on_ok_button_clicked(self,button):
+		
+	def on_cell_toggled(self,renderer_toggle, path):
+		self.liststore[path][2]=not self.liststore[path][2]
+	
+	def run(self):
+		return self.dialog.run()
+	def destroy(self):
+		self.dialog.destroy()
+	def get_selected(self):
+		selected=list()
+		for row in self.liststore:
+			if row[2]==True:
+				selected.append(row[0])
+		return selected
+ListSelectionDialog("Veuillez cochez les vecteurs de la base",[['e1',3],['e2',3],['e3',3],['u',2],['v',4]])
+    
+          
+
+
