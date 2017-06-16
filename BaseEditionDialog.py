@@ -3,14 +3,14 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 class BaseEditionDialog:
-	def __init__(self,l,dim=2):
+	def __init__(self,base=[],dim=2,parent=None):
 		self.cmp=0
 		self.dim=dim
-		self.list=l
+		self.base=base
 		self.builder=Gtk.Builder()
 		self.builder.add_from_file("BaseEditionDialog.glade")
 		self.dialog=self.builder.get_object('dialog')
-
+		self.dialog.set_transient_for(parent)
 		self.dialog.add_button('Valider',Gtk.ResponseType.OK)
 		self.dialog.add_button('Annuler',Gtk.ResponseType.CANCEL)
 
@@ -22,7 +22,7 @@ class BaseEditionDialog:
 		
 		self.treeview=self.builder.get_object("treeview")
 		self.liststore=Gtk.ListStore(str,int,bool)
-		for item in l:
+		for item in base:
 			if item[1]==dim:
 				self.liststore.append(item)
 				if item[1]==True:
@@ -44,7 +44,7 @@ class BaseEditionDialog:
 		self.cmp=0
 		self.error_label.hide()
 		self.dim=spinbutton.get_value_as_int()
-		for item in self.list:
+		for item in self.base:
 			if item[1]==self.dim:
 				self.liststore.append(item)
 	def on_cell_toggled(self,renderer_toggle, path):

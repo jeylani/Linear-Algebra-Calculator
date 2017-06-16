@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.18.3 
+<!-- Generated with glade 3.20.0 
 
 Copyright (C) 
 
@@ -10,7 +10,7 @@ without any warranty.
 
 -->
 <interface>
-  <requires lib="gtk+" version="3.12"/>
+  <requires lib="gtk+" version="3.20"/>
   <!-- interface-local-resource-path images -->
   <!-- interface-license-type all_permissive -->
   <object class="GtkImage" id="add_image">
@@ -19,7 +19,9 @@ without any warranty.
     <property name="stock">gtk-add</property>
   </object>
   <object class="GtkAdjustment" id="adjustment1">
+    <property name="lower">2</property>
     <property name="upper">1000000</property>
+    <property name="value">2</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -71,34 +73,8 @@ without any warranty.
     <property name="can_focus">False</property>
     <property name="stock">gtk-about</property>
   </object>
-  <object class="GtkListStore" id="liststore">
-    <columns>
-      <!-- column-name action -->
-      <column type="str"/>
-      <!-- column-name GtkCellRendererMode1 -->
-      <column type="GtkCellRendererMode"/>
-    </columns>
-    <data>
-      <row>
-        <col id="1">inert</col>
-      </row>
-      <row>
-        <col id="1">inert</col>
-      </row>
-      <row>
-        <col id="1">inert</col>
-      </row>
-      <row>
-        <col id="1">inert</col>
-      </row>
-    </data>
-  </object>
-  <object class="GtkTextBuffer" id="textbuffer1">
-    <property name="text" translatable="yes">{e1, e2, e3, e4, e5}</property>
-  </object>
-  <object class="GtkTextBuffer" id="textbuffer2">
-    <property name="text" translatable="yes">{u1, u2, u3, u4, u5}</property>
-  </object>
+  <object class="GtkTextBuffer" id="textbuffer1"/>
+  <object class="GtkTextBuffer" id="textbuffer2"/>
   <object class="GtkApplicationWindow" id="window">
     <property name="width_request">800</property>
     <property name="can_focus">False</property>
@@ -371,7 +347,7 @@ without any warranty.
             <property name="margin_left">15</property>
             <child>
               <object class="GtkBox" id="box5">
-                <property name="width_request">496</property>
+                <property name="width_request">570</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
@@ -419,7 +395,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <signal name="toggled" handler="on_inv_radiobutton_toggled" swapped="no"/>
@@ -435,7 +410,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -452,7 +426,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -469,7 +442,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -486,7 +458,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -503,7 +474,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -520,7 +490,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -537,7 +506,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -554,7 +522,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -571,7 +538,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -588,7 +554,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -605,7 +570,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -622,7 +586,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -639,7 +602,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -656,7 +618,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -673,7 +634,6 @@ without any warranty.
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
-                                <property name="xalign">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                                 <property name="group">inv_radiobutton</property>
@@ -685,7 +645,19 @@ without any warranty.
                               </packing>
                             </child>
                             <child>
-                              <placeholder/>
+                              <object class="GtkRadioButton" id="cholesk_radiobutton">
+                                <property name="label" translatable="yes">Factorisation Cholesky</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">inv_radiobutton</property>
+                                <signal name="toggled" handler="on_cholesk_radiobutton_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">4</property>
+                              </packing>
                             </child>
                             <child>
                               <placeholder/>
@@ -757,11 +729,6 @@ without any warranty.
                             <property name="width_request">166</property>
                             <property name="can_focus">True</property>
                             <property name="halign">start</property>
-                            <items>
-                              <item translatable="yes">A</item>
-                              <item translatable="yes">B</item>
-                              <item translatable="yes">C</item>
-                            </items>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -843,11 +810,6 @@ without any warranty.
                             <property name="width_request">166</property>
                             <property name="can_focus">True</property>
                             <property name="halign">start</property>
-                            <items>
-                              <item translatable="yes">A</item>
-                              <item translatable="yes">B</item>
-                              <item translatable="yes">C</item>
-                            </items>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -903,6 +865,7 @@ without any warranty.
                             <property name="can_focus">True</property>
                             <property name="halign">start</property>
                             <property name="adjustment">adjustment1</property>
+                            <property name="value">2</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -978,12 +941,12 @@ without any warranty.
               <object class="GtkBox" id="box3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">center</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="halign">start</property>
                     <property name="label" translatable="yes">Liste des objets</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
@@ -991,7 +954,7 @@ without any warranty.
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">True</property>
+                    <property name="fill">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -999,28 +962,36 @@ without any warranty.
                   <object class="GtkBox" id="box4">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="halign">start</property>
                     <property name="valign">start</property>
                     <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkTreeView" id="treeview">
+                      <object class="GtkScrolledWindow">
+                        <property name="width_request">200</property>
+                        <property name="height_request">432</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="reorderable">True</property>
-                        <property name="rules_hint">True</property>
-                        <property name="hover_expand">True</property>
-                        <property name="enable_grid_lines">horizontal</property>
-                        <property name="tooltip_column">0</property>
-                        <property name="activate_on_single_click">True</property>
-                        <child internal-child="selection">
-                          <object class="GtkTreeSelection" id="treeview-selection">
-                            <signal name="changed" handler="on_treeview_selection_changed" swapped="no"/>
+                        <property name="shadow_type">in</property>
+                        <child>
+                          <object class="GtkTreeView" id="treeview">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="reorderable">True</property>
+                            <property name="rules_hint">True</property>
+                            <property name="hover_expand">True</property>
+                            <property name="enable_grid_lines">horizontal</property>
+                            <property name="tooltip_column">0</property>
+                            <property name="activate_on_single_click">True</property>
+                            <child internal-child="selection">
+                              <object class="GtkTreeSelection" id="treeview-selection">
+                                <signal name="changed" handler="on_treeview_selection_changed" swapped="no"/>
+                              </object>
+                            </child>
                           </object>
                         </child>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
@@ -1028,7 +999,7 @@ without any warranty.
                       <object class="GtkBox" id="box2">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="halign">start</property>
+                        <property name="halign">center</property>
                         <property name="valign">center</property>
                         <property name="baseline_position">top</property>
                         <child>
@@ -1039,7 +1010,6 @@ without any warranty.
                             <property name="halign">start</property>
                             <property name="valign">center</property>
                             <property name="image">add_image</property>
-                            <property name="xalign">0</property>
                             <property name="always_show_image">True</property>
                             <signal name="clicked" handler="on_add_matrix_button_clicked" swapped="no"/>
                           </object>
@@ -1089,13 +1059,13 @@ without any warranty.
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
-                        <property name="position">4</property>
+                        <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -1142,13 +1112,17 @@ without any warranty.
               <object class="GtkBox" id="resultat_box">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="halign">center</property>
+                <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkLabel" id="resultat_label">
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
                     <property name="valign">center</property>
                     <property name="label" translatable="yes">U(n)=2^(n+1)</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                      <attribute name="foreground" value="#8a8ae2e23434"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1158,58 +1132,39 @@ without any warranty.
                 </child>
                 <child>
                   <object class="GtkBox" id="resultat_matrix_box">
+                    <property name="width_request">200</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="orientation">vertical</property>
+                    <property name="halign">center</property>
                     <property name="spacing">20</property>
                     <child>
-                      <object class="GtkGrid" id="resultat_grid1">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="column_spacing">60</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">0</property>
-                      </packing>
+                      <placeholder/>
                     </child>
                     <child>
-                      <object class="GtkGrid" id="resultat_grid2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="column_spacing">15</property>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="ajouter_resultat_button">
-                        <property name="label" translatable="yes">ajouter aux operandes</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">True</property>
-                        <property name="tooltip_text" translatable="yes">Ajouter les resultats à la liste des objets</property>
-                        <property name="halign">center</property>
-                        <property name="image">image1</property>
-                        <property name="always_show_image">True</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="position">2</property>
-                      </packing>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">True</property>
+                    <property name="fill">False</property>
                     <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="ajouter_resultat_button">
+                    <property name="label" translatable="yes">ajouter aux operandes</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                    <property name="tooltip_text" translatable="yes">Ajouter les resultats à la liste des objets</property>
+                    <property name="halign">center</property>
+                    <property name="image">image1</property>
+                    <property name="always_show_image">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
