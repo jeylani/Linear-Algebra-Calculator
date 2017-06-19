@@ -31,7 +31,7 @@ class ClientTCP(threading.Thread):
 				response=self.sock.recv(1024)
 				result=json.loads(response)
 				
-				time.sleep(0.03)
+				time.sleep(0.003)
 				self.callback(result)
 				self.job=False
 	def disconnect(self):

@@ -3,11 +3,12 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 class NamesInputDialog:
-    def __init__(self,title1,title2=None):
+    def __init__(self,title1,title2=None,parent=None):
         self.builder=Gtk.Builder()
         self.builder.add_from_file("NamesInputDialog.glade")
         self.dialog=self.builder.get_object('dialog')
-
+	self.dialog.set_transient_for(parent)
+	
         self.valider_button=self.dialog.add_button('Valider',Gtk.ResponseType.OK)
         self.cancel_button=self.dialog.add_button('Annuler',Gtk.ResponseType.CANCEL)
 

@@ -4,6 +4,7 @@ from gi.repository import Gtk
 
 class MatrixEditorDialog:
     def __init__(self,name='?',data=[],nbLigne=2, nbCol=2,parent=None):
+    	self.row=nbLigne
         self.col=nbCol
         self.builder=Gtk.Builder()
         self.builder.add_from_file("MatrixEditorDialog.glade")

@@ -5,15 +5,28 @@ from gi.repository import Gtk
 from Handler               import Handler
 from MatrixEditorDialog    import MatrixEditorDialog
 from NamesInputDialog      import NamesInputDialog
+from ConnexionDialog       import ConnexionDialog
+from client                import ClientTCP
+import socket
+
+def vector_to_matrix(v,n,p):
+        m=[[0 for i in range(p)] for j in range(n)]
+        for i in range(n):
+                for j in range(p):
+                        m[i][j]=v[i*n+j]
+        return m
 
 class LAC_ApplicationWindow:
         def __init__(self):
-                self.current_operation="INVERSER"	
+                self.client_tcp=None
+                self.operator="INV"
+                self.operandes="MATRICE"		
                 self.matrix_list={}
                 self.builder=Gtk.Builder()
                 self.builder.add_from_file("LAC_Applicationwindow.glade")
 
                 self.window=self.builder.get_object("window")  
+                self.spinner=self.builder.get_object('spinner')
                 self.ajouter_resultat_button=self.builder.get_object('ajouter_resultat_button')
                 self.delete_matrix_button=self.builder.get_object('delete_matrix_button')
                 self.edit_matrix_button=self.builder.get_object('edit_matrix_button')
@@ -47,22 +60,26 @@ class LAC_ApplicationWindow:
                 self.treeview.append_column(column)
                 self.window.show_all()
 
-                self.ajouter_resultat_button.hide()
-                self.deuxieme_op_box.set_visible(False)
-                self.premiere_op_label.set_text("Choisir une matrice")
-                self.famille_box1.set_visible(False)
 
-                self.resultat_label=self.builder.get_object("resultat_label")
-                self.resultat_box=self.builder.get_object("resultat_box")
-                self.resultat_grid1=self.builder.get_object("resultat_grid1")
-                self.resultat_grid2=self.builder.get_object("resultat_grid2")
+
+                self.error_label=self.builder.get_object("error_label")
+                self.resultat_label1=self.builder.get_object("resultat_label1")
+                self.resultat_label2=self.builder.get_object("resultat_label2")
 
                 self.textbuffer1=self.builder.get_object("textbuffer1")
                 self.textbuffer2=self.builder.get_object("textbuffer2")
 
+                self.ajouter_resultat_button.hide()
+                self.deuxieme_op_box.set_visible(False)
+                self.premiere_op_label.set_text("Choisir une matrice")
+                self.famille_box1.set_visible(False)
+                self.error_label.hide()
+
+                self.combobox1_type="MATRICE"
+                self.combobox2_type=""
+
                 self.builder.connect_signals(Handler(self))
-                self.grid1=None
-                self.grid2=None
+
         def print_base_on_textbuffer(self,textbuffer,list_name):
                 chaine='{'+', '.join(list_name)+'}'
                 textbuffer.set_text(chaine)
@@ -78,9 +95,9 @@ class LAC_ApplicationWindow:
                         self.set_combobox_list(self.comboboxtext2,self.combobox2_type)
                 dialog.destroy()
         def on_ajouter_resultat_button_clicked(self,button):
-                if self.current_operation=="PASSAGE":
+                if self.operator=="PASSAGE":
                         NamesInputDialog("Quel nom voulez-vous donner a la matrice de passage?","Quel nom voulez-vous donner a la matrice diagonale?")
-                elif self.current_operation=="VECTEURS PROPRES":
+                elif self.operator=="VECTEURS PROPRES":
                         dialog=NamesInputDialog("Avec quel prefixe voulez-vous nommer les vecteurs propres?")
                 else :
                         dialog=NamesInputDialog("Quel nom voulez-vous donner a la matrice?")
@@ -91,56 +108,57 @@ class LAC_ApplicationWindow:
                         name1,name2=dialog.get_names()
                         print(name1,name2)
                 dialog.destroy()
-        def set_matrix_data(self,grid,data=[]):
-                for i in range(len(data)):
-                        grid.insert_row(i)
-                        for j in range(len(data[0])):
-                                label=Gtk.Label(str(data[i][j]))
-                                label.show()
-                                grid.attach(label,j,i,1,1)
+        def set_matrix_data(self,label,data=[]):
+        	label.show()
+        	text=''
+        
+        	for u in data:
+        		ch='       '.join(['{: f}'.format(x) for x in u])
+        		text+=ch+'\n'
+        	label.set_text(text)
+
+        def get_operandes(self):
+                if self.operandes=='MATRICE':
+                        name=self.comboboxtext1.get_active_text().split('(')[0]
+                        v,n,p=self.matrix_list[name]
+                        matrix=vector_to_matrix(v,n,p)
+                        return matrix
+
 
         def on_envoyer_button_clicked(self,button):
-                self.ajouter_resultat_button.show()
-                if self.grid1:
-                        self.grid1.hide()
-                if self.grid2:
-                        self.grid2.hide()
-                self.resultat_label.hide()
-                if self.current_operation in ("DIAG","FACT LU"):
-                        if self.grid1:
-                                self.resultat_matrix_box.remove(self.grid1)
-                        self.grid1=Gtk.Grid()
-                        #self.grid1.set_column_spacing(10)
-                        #self.grid1.set_row_spacing(10)
-                        self.grid1.set_column_homogeneous(True)
-                        self.resultat_matrix_box.pack_end(self.grid1,True,True,0)
-                        if self.grid2:
-                                self.resultat_matrix_box.remove(self.grid2)
-                        self.grid2=Gtk.Grid()
-                        #self.grid2.set_column_spacing(10)
-                        #self.grid2.set_row_spacing(10)
-                        self.grid2.set_column_homogeneous(True)
-                        self.resultat_matrix_box.pack_end(self.grid2,True,True,0)
+                self.spinner.start()
+                self.client_tcp.set_operation(self.operator,self.get_operandes())
 
-                        self.set_matrix_data(self.grid1,[[1.5,2.0],[2.5,-3.7]])
-                        self.set_matrix_data(self.grid2,[[1.5,2.0],[2.5,-3.7]])
 
-                        self.grid1.show()
-                        self.grid2.show()
-                elif self.current_operation in ("SRL","EDL","DET","TR"):
-                        self.resultat_label.set_text("Resultat: %s"%self.current_operation)
-                        self.resultat_label.show()
-                        self.ajouter_resultat_button.hide()
-                else:
-                        if self.grid1:
-                                self.resultat_matrix_box.remove(self.grid1)
-                        self.grid1=Gtk.Grid()
-                        #self.grid1.set_column_spacing(30)
-                        #self.grid1.set_row_spacing(10)
-                        self.grid1.set_column_homogeneous(True)
-                        self.resultat_matrix_box.pack_end(self.grid1,True,True,0)
-                        self.set_matrix_data(self.grid1,[[1.5,2.0],[2.5,-3.7]])
-                        self.grid1.show()
+        def display_result(self,result):
+                self.spinner.stop()
+                self.error_label.hide()
+                self.resultat_label2.hide()
+                self.resultat_label1.hide()
+                self.ajouter_resultat_button.hide()
+
+		print 'Le resultat est %s'%result
+                if 'error' in result:
+                        if result['error']=='Singular matrix':
+                                self.error_label.set_text("La matrice saisie n'est pas inversible!")
+                        self.error_label.show()
+                        return
+                elif 'result' in result:
+                        
+                        if not 'result2' in result and not hasattr(result['result'], "__len__"):
+
+                        	self.resultat_label1.set_text("Resultat: %s"%self.operator)
+                        	self.resultat_label1.show()    
+		                self.ajouter_resultat_button.hide()
+			elif not 'result2' in result and hasattr(result['result'], "__len__"): 
+				self.ajouter_resultat_button.show()
+				self.set_matrix_data(self.resultat_label1,result['result'])
+			else:
+					
+			        self.set_matrix_data(self.resultat_label1,[[1.5,2.0],[2.5,-3.7]])
+			        self.set_matrix_data(self.resultat_label2,[[1.5,2.0],[2.5,-3.7]])
+                		
+            
         def get_selected_name(self):
                 selection=self.treeview.get_selection()
                 model,self.treeiter=selection.get_selected()
@@ -150,7 +168,7 @@ class LAC_ApplicationWindow:
                 name=self.get_selected_name()
                 m,n,p=self.matrix_list[name]
 
-                dialog=MatrixEditorDialog(name,m,n,p)
+                dialog=MatrixEditorDialog(name,m,n,p,parent=self.window)
                 response=dialog.run()
                 if response == Gtk.ResponseType.OK :
                         name,m,n,p=dialog.get_object()
@@ -203,8 +221,9 @@ class LAC_ApplicationWindow:
                                 print (self.matrix_list[obj])
                                 combobox.append_text(obj+'('+str(n)+"x"+str(p)+')')
 
-        def saisir_operandes(self,name,operandes,msg):
-                self.current_operation=name
+        def saisir_operandes(self,operator,operandes,msg):
+                self.operator=operator
+                self.operandes=operandes
 
                 self.deuxieme_op_box.show()
                 self.comboboxtext1.hide()
@@ -234,7 +253,7 @@ class LAC_ApplicationWindow:
                 elif operandes=="DEUX_MATRICES":
                         self.combobox1_type="MATRICE"
                         self.combobox2_type="MATRICE"
-                        self.operandes=operandes
+
                         self.premiere_op_label.set_text("Premiere Matrice")
                         self.set_combobox_list(self.comboboxtext1)
                         self.set_combobox_list(self.comboboxtext2)
@@ -285,9 +304,38 @@ class LAC_ApplicationWindow:
 
                         self.deuxieme_op_label.show()
                         self.deuxieme_op_label.set_text("Saisir un entier")
-                        self.spinbutton.show()		
+                        self.spinbutton.show()
+        def connecter(self,ip,port):
+                self.client_tcp=ClientTCP(ip,port,self.display_result)
+                self.client_tcp.start()	
         def show_all(self):
                 self.window.show_all()
+        def __del__(self):
+                print "destruction"
+                if self.client_tcp:
+                        self.client_tcp.disconnect()
+                        self.client_tcp.close()
+                        self.client_tcp.join()
 
 app=LAC_ApplicationWindow()
-Gtk.main()
+dialog=ConnexionDialog(parent=app.window)
+
+while True:
+        response=dialog.run()
+        if response == Gtk.ResponseType.OK :
+                ip,port=dialog.get_address()
+                try:
+                        app.connecter(ip,port)
+                        dialog.destroy()
+                        Gtk.main()
+                        break
+                except socket.error:
+                        dialog.show_error()
+                        continue
+        else:
+                dialog.destroy()
+                break
+app.__del__()	
+
+
+

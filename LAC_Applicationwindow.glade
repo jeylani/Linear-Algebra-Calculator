@@ -53,11 +53,6 @@ without any warranty.
     <property name="can_focus">False</property>
     <property name="stock">gtk-edit</property>
   </object>
-  <object class="GtkImage" id="image6">
-    <property name="visible">True</property>
-    <property name="can_focus">False</property>
-    <property name="icon_name">network-wired</property>
-  </object>
   <object class="GtkImage" id="image7">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -253,26 +248,6 @@ without any warranty.
             <property name="toolbar_style">both-horiz</property>
             <child>
               <object class="GtkToolItem" id="toolbutton1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkButton" id="ConnectionButton">
-                    <property name="label" translatable="yes">Connecter</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">True</property>
-                    <property name="image">image6</property>
-                    <property name="always_show_image">True</property>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="homogeneous">True</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkToolItem" id="toolbutton4">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
@@ -912,10 +887,8 @@ without any warranty.
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkSpinner" id="spinner1">
-                        <property name="visible">True</property>
+                      <object class="GtkSpinner" id="spinner">
                         <property name="can_focus">False</property>
-                        <property name="active">True</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1114,34 +1087,50 @@ without any warranty.
                 <property name="can_focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkLabel" id="resultat_label">
-                    <property name="can_focus">False</property>
-                    <property name="halign">center</property>
-                    <property name="valign">center</property>
-                    <property name="label" translatable="yes">U(n)=2^(n+1)</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                      <attribute name="foreground" value="#8a8ae2e23434"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
                   <object class="GtkBox" id="resultat_matrix_box">
                     <property name="width_request">200</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="halign">center</property>
-                    <property name="spacing">20</property>
+                    <property name="spacing">150</property>
+                    <property name="homogeneous">True</property>
                     <child>
-                      <placeholder/>
+                      <object class="GtkLabel" id="resultat_label1">
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="label" translatable="yes">U(n)=2^(n+1)</property>
+                        <property name="justify">fill</property>
+                        <property name="selectable">True</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                          <attribute name="foreground" value="#8a8ae2e23434"/>
+                        </attributes>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkLabel" id="resultat_label2">
+                        <property name="can_focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
+                        <property name="label" translatable="yes">U(n)=2^(n+1)</property>
+                        <property name="justify">fill</property>
+                        <property name="selectable">True</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                          <attribute name="foreground" value="#8a8ae2e23434"/>
+                        </attributes>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">1</property>
+                      </packing>
                     </child>
                   </object>
                   <packing>
@@ -1165,6 +1154,20 @@ without any warranty.
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="error_label">
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Erreur!</property>
+                    <attributes>
+                      <attribute name="foreground" value="#ffff00000000"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">3</property>
                   </packing>
                 </child>
               </object>
