@@ -9,6 +9,8 @@ import socket
 import json
 import threading
 import numpy
+import numbers
+import sys, traceback
 from scipy import linalg
 
 def menu():
@@ -248,7 +250,11 @@ class ServerThread(threading.Thread):
 try:	
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print 'Demmarage du Serveur'
-        port=input('Veuillez saisir un numero de port pour le serveur:')
+        while True:
+        	port=raw_input("Veuillez saisir un numero de port pour le serveur:")
+        	if port.isdigit():
+			break
+        port=int(port)
         sock.bind(('', port))
 
         server_thread=ServerThread(sock,port)
@@ -259,28 +265,36 @@ try:
                 
                 try:
                 	menu()
-                        choix=input(">>")
-                        if choix==1:
+                        choix=raw_input(">>")
+                        if choix=='1':
                                 break
-                        elif choix==0:
+                        elif choix=='0':
                         	nbr=len(server_thread.clients)
                         	if nbr==0:
-                        		print 'aucun client n\'est connecte pour le moment'
+                        		print "Aucun client n'est connecte pour le moment\n"
                         	else:
-                        		print 'Les %s clients connectes au serveur sont: '%nbr
-                        		for addr in server_thread.clients:
-                        			ip,port=addr
-                        			print '%s:%s'%ip %port
+                        		print "Nombre de clients connectes au serveur: "+str(nbr)
+                        		print server_thread.clients
                         		
-                except(TypeError,ValueError):
-                        print("choix doit etre un entier")
+                        		for addr in server_thread.clients:
+                        			print "-------------"+str(addr[0])+"---------------"
+                        	        print ""
+                        		
+                except(TypeError,ValueError) as e:
+                        print("choix doit etre un entier:(%s)" %e.message)
         server_thread.shutdown()
 
         server_thread.join()
         print "Le serveur s'est arrete normalement!"
-except socket.error as e:
-        print "Erreur "+e.message
-except Exception as e:
-        print "Erreur inconnue "+e.message
+except socket.error, msg:
+	if msg[0]==13:
+        	print "Ce numero de port est reserve!"
+        elif msg[0]==98:
+        	print "Ce numero de port est entrain d'etre utilise par un autre processus!"
+        else:
+        	print "Erreur socket: (%s) "%msg
+    
+except Exception, msg:
+        print "Erreur inconnue %s" %msg
 finally:
         sock.close()

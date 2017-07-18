@@ -37,6 +37,7 @@ class LAC_ApplicationWindow:
                 self.window=self.builder.get_object("window")  
                 self.spinner=self.builder.get_object('spinner')
                 self.ajouter_resultat_button=self.builder.get_object('ajouter_resultat_button')
+                self.sendsms_button=self.builder.get_object('sendsms_button')
                 self.delete_matrix_button=self.builder.get_object('delete_matrix_button')
                 self.edit_matrix_button=self.builder.get_object('edit_matrix_button')
 
@@ -244,6 +245,7 @@ class LAC_ApplicationWindow:
                 self.resultat_label2.hide()
                 self.resultat_label1.hide()
                 self.ajouter_resultat_button.hide()
+                self.sendsms_button.hide()
                 self.result2=None
                 self.result=None
 
@@ -255,6 +257,7 @@ class LAC_ApplicationWindow:
                 elif 'result' in result:
                 	self.set_matrix_data(self.resultat_label1,result['result'])
                		self.result=result['result']
+               		self.sendsms_button.show()
                 	if 'result2' in result:
 			        self.set_matrix_data(self.resultat_label2,result['result2'])
 			        self.result2=result['result2']
