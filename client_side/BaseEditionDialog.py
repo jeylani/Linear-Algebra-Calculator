@@ -8,7 +8,7 @@ class BaseEditionDialog:
 		self.dim=dim
 		self.base=base
 		self.builder=Gtk.Builder()
-		self.builder.add_from_file("BaseEditionDialog.glade")
+		self.builder.add_from_file("./glade/BaseEditionDialog.glade")
 		self.dialog=self.builder.get_object('dialog')
 		self.dialog.set_transient_for(parent)
 		self.dialog.add_button('Valider',Gtk.ResponseType.OK)

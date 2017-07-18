@@ -6,7 +6,7 @@ class NamesInputDialog:
     def __init__(self,parent=None,twice=False):
     	self.twice=twice
         self.builder=Gtk.Builder()
-        self.builder.add_from_file("NamesInputDialog.glade")
+        self.builder.add_from_file("./glade/NamesInputDialog.glade")
         self.dialog=self.builder.get_object('dialog')
 	self.dialog.set_transient_for(parent)
         self.valider_button=self.dialog.add_button('Valider',Gtk.ResponseType.OK)

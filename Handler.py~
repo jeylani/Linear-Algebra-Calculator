@@ -13,7 +13,7 @@ class Handler:
         def on_add_matrix_button_clicked(self,button):
                 self.app.on_add_matrix_button_clicked(button)
         def on_ajouter_resultat_button_clicked(self,button):
-                self.app.on_ajouter_resultat_button_clicked(button)
+                self.app.add_result_to_objects_list()
         def on_delete_matrix_button_clicked(self,button):
                 self.app.on_delete_matrix_button_clicked(button)
         def on_edit_matrix_button_clicked(self,button):
@@ -48,10 +48,6 @@ class Handler:
                 active=button.get_active()
                 if active:
                         self.app.saisir_operandes("VP","MATRICE","Calcul des vecteurs propres d'une matrice")	
-        def on_diag_radiobutton_toggled(self,button):
-                active=button.get_active()
-                if active:
-                        self.app.saisir_operandes("DIAG","MATRICE","Diagonalisation d'une matrice")
         def on_det_radiobutton_toggled(self,button):
                 active=button.get_active()
                 if active:
@@ -79,7 +75,7 @@ class Handler:
         def on_factlu_radiobutton_toggled(self,button):
                 active=button.get_active()
                 if active:
-                        self.app.saisir_operandes("FACT LU","MATRICE","Factorisation LU d'une matrice")
+                        self.app.saisir_operandes("LU","MATRICE","Factorisation LU d'une matrice")
         def on_cholesk_radiobutton_toggled(self,button):
                 active=button.get_active()
                 if active:

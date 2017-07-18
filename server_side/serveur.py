@@ -11,6 +11,11 @@ import threading
 import numpy
 from scipy import linalg
 
+def menu():
+	print("0: Afficher la liste des clients connectes")
+        print("1: Arreter le serveur")
+        print("Quel est votre requete?")
+        
 def convert_numpy_matrix(matrix):
 	return [[float(x) for x in v] for v in matrix]
 
@@ -44,7 +49,8 @@ class ClientThread(threading.Thread):
                 self.ip=ip
                 self.port=port
                 self.client_socket=client_socket
-                print("[+] Nouveau thread pour %s %s" % (self.ip, self.port))
+                print("[+] Un client utilisant l'adresse %s et le port %s s'est connecte au serveur!" % (self.ip, self.port))
+                menu()
         def run(self):
                 try:
                         while True:
@@ -73,26 +79,26 @@ class ClientThread(threading.Thread):
                                                 res=numpy.linalg.inv(calcul['operandes'])
                                                 matrix=[[float(x) for x in v] for v in res]
                                                 response=json.dumps({'result':matrix})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='TRANS':
                                                 res=numpy.transpose(calcul['operandes'])
                                                 matrix=convert_numpy_matrix(res)
                                                 response=json.dumps({'result':matrix})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='DET':
                                                 res=numpy.linalg.det(calcul['operandes'])
                                                 response=json.dumps({'result':res})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='TR':
                                                 res=numpy.trace(calcul['operandes'])
                                                 response=json.dumps({'result':res})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                        			elif calcul['operateur']=='PROD':
@@ -105,7 +111,7 @@ class ClientThread(threading.Thread):
                                                 	res=numpy.dot(A,B)
                                                 	matrix=convert_numpy_matrix(res)
                                                 	response=json.dumps({'result':matrix})
-                                        	print 'Taille de la reponse %s '%len(response)
+                                        	#print 'Taille de la reponse %s '%len(response)
                                         	self.client_socket.send(response)
                                      	elif calcul['operateur']=='SOM':
                        				a=numpy.array(calcul['operandes'][0])
@@ -117,7 +123,7 @@ class ClientThread(threading.Thread):
 	                                        else:
 	                                        	err="Les deux matrices doivent avoir les memes dimensions!"
                        					response=json.dumps({'error':err})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='DIFF':
@@ -130,7 +136,7 @@ class ClientThread(threading.Thread):
 	                                        else:
 	                                        	err="Les deux matrices doivent avoir les memes dimensions!"
                        					response=json.dumps({'error':err})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='SL':
@@ -139,14 +145,14 @@ class ClientThread(threading.Thread):
                                                 res=numpy.linalg.solve(a, y)
                                                 vector=[ [float(v)] for v in res]
                                                 response=json.dumps({'result':vector})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='SPEC':
                        				res=numpy.linalg.eig(calcul['operandes'])
                                                 vector=[[ float(v) for v in res[0] ]]
                                                 response=json.dumps({'result':vector})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                        			elif calcul['operateur']=='VP':
@@ -154,21 +160,21 @@ class ClientThread(threading.Thread):
                        				w=res[1].transpose()
                                                 matrix=convert_numpy_matrix(w)
                                                 response=json.dumps({'result':matrix})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='CHOLESKY':
                        				res=numpy.linalg.cholesky(calcul['operandes'])
                                                 matrix=convert_numpy_matrix(res)
                                                 response=json.dumps({'result':matrix})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='CHOLESKY':
                        				res=numpy.linalg.cholesky(calcul['operandes'])
                                                 matrix=convert_numpy_matrix(res)
                                                 response=json.dumps({'result':matrix})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='LU':
@@ -176,13 +182,13 @@ class ClientThread(threading.Thread):
                                                 matrix=convert_numpy_matrix(L)
                                                 matrix2=convert_numpy_matrix(U)
                                                 response=json.dumps({'result':matrix,'result2':matrix2})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         elif calcul['operateur']=='PUIS':
                                                 matrix=puissance(calcul['operandes'][0], calcul['operandes'][1])
                                                 response=json.dumps({'result':matrix})
-                                                print 'Taille de la reponse %s ' %len(response)
+                                                #print 'Taille de la reponse %s ' %len(response)
                                                 #print response
                                                 self.client_socket.send(response)
                                         else:
@@ -205,22 +211,27 @@ class ClientThread(threading.Thread):
                                 
 
                 except socket.error as msg:
-                        print 'Erreur socket:%s'%msg	
+                        print 'Erreur socket:%s'%msg
+                        menu()	
                 finally:
                         self.client_socket.close()
 class ServerThread(threading.Thread):
-        def __init__(self,sock):
+        def __init__(self,sock,port=15555):
                 threading.Thread.__init__(self)
                 self.sock=sock
                 self.arret=False
+                self.port=port
+                self.clients=list()
         def run(self):
                 threads=list()
+                
                 while not self.arret:
                         self.sock.listen(5)
                         (client_socket, (ip,port)) = self.sock.accept()
                         if not self.arret: 
                         	client_thread=ClientThread(ip, port, client_socket)
                         	threads.append(client_thread)
+                        	self.clients.append((ip,port))
                         	client_thread.start()
                 for thread in threads:
                         thread.join()
@@ -229,28 +240,38 @@ class ServerThread(threading.Thread):
         	print "Fermeture du serveur en cours..."
                 self.arret=True
                 temp_sock=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		temp_sock.connect(('127.0.0.1',15555))
+		temp_sock.connect(('127.0.0.1',self.port))
 		temp_sock.send('{"operateur":"DISCONNECT"}')
 		temp_sock.close()
 
-
+	
 try:	
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.bind(('', 15555))
+        print 'Demmarage du Serveur'
+        port=input('Veuillez saisir un numero de port pour le serveur:')
+        sock.bind(('', port))
 
-        server_thread=ServerThread(sock)
+        server_thread=ServerThread(sock,port)
         server_thread.start()
 
         print("Le serveur est en service...")
         while True:
-                print("0: Afficher la liste des clients connectes")
-                print("1:Arreter le serveur de facon normal")
-                print("2:Forcer l'arret du serveur")
-                print("Quel est votre requete?")
+                
                 try:
+                	menu()
                         choix=input(">>")
                         if choix==1:
                                 break
+                        elif choix==0:
+                        	nbr=len(server_thread.clients)
+                        	if nbr==0:
+                        		print 'aucun client n\'est connecte pour le moment'
+                        	else:
+                        		print 'Les %s clients connectes au serveur sont: '%nbr
+                        		for addr in server_thread.clients:
+                        			ip,port=addr
+                        			print '%s:%s'%ip %port
+                        		
                 except(TypeError,ValueError):
                         print("choix doit etre un entier")
         server_thread.shutdown()

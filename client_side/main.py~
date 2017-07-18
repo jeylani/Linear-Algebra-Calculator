@@ -32,7 +32,7 @@ class LAC_ApplicationWindow:
                 self.operandes="MATRICE"		
                 self.matrix_list={}
                 self.builder=Gtk.Builder()
-                self.builder.add_from_file("LAC_Applicationwindow.glade")
+                self.builder.add_from_file("./glade/LAC_Applicationwindow.glade")
 
                 self.window=self.builder.get_object("window")  
                 self.spinner=self.builder.get_object('spinner')

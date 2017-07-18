@@ -7,7 +7,7 @@ class MatrixEditorDialog:
     	self.row=nbLigne
         self.col=nbCol
         self.builder=Gtk.Builder()
-        self.builder.add_from_file("MatrixEditorDialog.glade")
+        self.builder.add_from_file("./glade/MatrixEditorDialog.glade")
         self.dialog=self.builder.get_object('dialog')
         self.dialog.set_transient_for(parent)
         self.save_button=self.dialog.add_button('Enregistrer',Gtk.ResponseType.OK)
@@ -39,36 +39,33 @@ class MatrixEditorDialog:
         p=self.col
         name=self.name_entry.get_text()
         m=[]
-        for j in range(p):
-            for i in range(n):
+        for i in range(n):
+            for j in range(p):
                 entry=self.matrix_grid.get_child_at(j,i)
-                m.append(float(entry.get_text()))
-        return name,m,n,p
-    def create_entry(self,text):
-        entry=Gtk.Entry()
-        entry.set_text(text)
-        entry.set_max_width_chars (10)
-        entry.set_width_chars(10)
+                m.append(entry.get_value())
+        return name,(m,n,p)
+    def create_entry(self,val):
+        entry=Gtk.SpinButton(adjustment=Gtk.Adjustment(value=val,lower=-100000,upper=100000,step_incr=0.001),climb_rate=0.1,digits=3)
         entry.show()
         return entry
     def add_rows(self,n,data=[]):
         for i in range(n):
             self.matrix_grid.insert_row(self.row)
             for j in range(self.col):
-                entry=self.create_entry("0")
+                entry=self.create_entry(0.0)
                 pos=self.position(i,j)
                 if pos<len(data):
-                    entry.set_text(str(data[pos]))
+                    entry.set_value(data[pos])
                 self.matrix_grid.attach(entry,j,self.row,1,1) 
             self.row+=1
     def add_columns(self,n,data=[]):
         for j in range(n):
             self.matrix_grid.insert_column(self.col)
             for i in range(self.row):
-                entry=self.create_entry("0")
+                entry=self.create_entry(0.0)
                 pos=self.position(i,j)
                 if pos<len(data):
-                    entry.set_text(str(data[pos]))
+                    entry.set_value(data[pos])
                 self.matrix_grid.attach(entry,self.col,i,1,1) 
             self.col+=1
     def diminuer_row(self):

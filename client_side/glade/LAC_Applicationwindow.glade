@@ -75,7 +75,7 @@ without any warranty.
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Linear Algebra Calculator</property>
     <property name="resizable">False</property>
-    <property name="window_position">center</property>
+    <property name="window_position">center-always</property>
     <property name="default_width">1024</property>
     <signal name="delete-event" handler="on_window_delete_event" swapped="no"/>
     <child>
@@ -412,22 +412,6 @@ without any warranty.
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkRadioButton" id="diag_radiobutton">
-                                <property name="label" translatable="yes">Diagonaliser</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
-                                <property name="group">inv_radiobutton</property>
-                                <signal name="toggled" handler="on_diag_radiobutton_toggled" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">3</property>
-                              </packing>
-                            </child>
-                            <child>
                               <object class="GtkRadioButton" id="factlu_radiobutton">
                                 <property name="label" translatable="yes">Factorisation LU</property>
                                 <property name="visible">True</property>
@@ -441,86 +425,6 @@ without any warranty.
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="top_attach">4</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkRadioButton" id="pass_radiobutton">
-                                <property name="label" translatable="yes">Matrice de passage</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
-                                <property name="group">inv_radiobutton</property>
-                                <signal name="toggled" handler="on_pass_radiobutton_toggled" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">1</property>
-                                <property name="top_attach">5</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkRadioButton" id="srl_radiobutton">
-                                <property name="label" translatable="yes">Suite recurente lineaire</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
-                                <property name="group">inv_radiobutton</property>
-                                <signal name="toggled" handler="on_srl_radiobutton_toggled" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="top_attach">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkRadioButton" id="equadif_radiobutton">
-                                <property name="label" translatable="yes">Equation differentielle</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
-                                <property name="group">inv_radiobutton</property>
-                                <signal name="toggled" handler="on_equadif_radiobutton_toggled" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="top_attach">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkRadioButton" id="sl_radiobutton">
-                                <property name="label" translatable="yes">Systeme Lineaire</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
-                                <property name="group">inv_radiobutton</property>
-                                <signal name="toggled" handler="on_sl_radiobutton_toggled" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="top_attach">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkRadioButton" id="det_radiobutton">
-                                <property name="label" translatable="yes">Determinant</property>
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">False</property>
-                                <property name="active">True</property>
-                                <property name="draw_indicator">True</property>
-                                <property name="group">inv_radiobutton</property>
-                                <signal name="toggled" handler="on_det_radiobutton_toggled" swapped="no"/>
-                              </object>
-                              <packing>
-                                <property name="left_attach">2</property>
-                                <property name="top_attach">3</property>
                               </packing>
                             </child>
                             <child>
@@ -620,6 +524,22 @@ without any warranty.
                               </packing>
                             </child>
                             <child>
+                              <object class="GtkRadioButton" id="det_radiobutton">
+                                <property name="label" translatable="yes">Determinant</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">inv_radiobutton</property>
+                                <signal name="toggled" handler="on_det_radiobutton_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
                               <object class="GtkRadioButton" id="cholesk_radiobutton">
                                 <property name="label" translatable="yes">Factorisation Cholesky</property>
                                 <property name="visible">True</property>
@@ -630,9 +550,76 @@ without any warranty.
                                 <signal name="toggled" handler="on_cholesk_radiobutton_toggled" swapped="no"/>
                               </object>
                               <packing>
-                                <property name="left_attach">2</property>
-                                <property name="top_attach">4</property>
+                                <property name="left_attach">1</property>
+                                <property name="top_attach">5</property>
                               </packing>
+                            </child>
+                            <child>
+                              <object class="GtkRadioButton" id="sl_radiobutton">
+                                <property name="label" translatable="yes">Systeme Lineaire</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">inv_radiobutton</property>
+                                <signal name="toggled" handler="on_sl_radiobutton_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkRadioButton" id="pass_radiobutton">
+                                <property name="label" translatable="yes">Matrice de passage</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">inv_radiobutton</property>
+                                <signal name="toggled" handler="on_pass_radiobutton_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkRadioButton" id="equadif_radiobutton">
+                                <property name="label" translatable="yes">Equation differentielle</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">inv_radiobutton</property>
+                                <signal name="toggled" handler="on_equadif_radiobutton_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkRadioButton" id="srl_radiobutton">
+                                <property name="label" translatable="yes">Suite recurente lineaire</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                                <property name="group">inv_radiobutton</property>
+                                <signal name="toggled" handler="on_srl_radiobutton_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left_attach">2</property>
+                                <property name="top_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
                             </child>
                             <child>
                               <placeholder/>
@@ -701,6 +688,7 @@ without any warranty.
                         </child>
                         <child>
                           <object class="GtkComboBoxText" id="comboboxtext1">
+                            <property name="name">machin</property>
                             <property name="width_request">166</property>
                             <property name="can_focus">True</property>
                             <property name="halign">start</property>
@@ -1068,7 +1056,7 @@ without any warranty.
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
-                <property name="label" translatable="yes">L'inverse de la matrice est:</property>
+                <property name="label" translatable="yes">Resultat:</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                   <attribute name="underline" value="True"/>
@@ -1097,10 +1085,10 @@ without any warranty.
                     <child>
                       <object class="GtkLabel" id="resultat_label1">
                         <property name="can_focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="valign">center</property>
-                        <property name="label" translatable="yes">U(n)=2^(n+1)</property>
-                        <property name="justify">fill</property>
+                        <property name="halign">start</property>
+                        <property name="valign">start</property>
+                        <property name="label" translatable="yes">            0.0                                      0.0
+1111111                                      0.0</property>
                         <property name="selectable">True</property>
                         <attributes>
                           <attribute name="weight" value="bold"/>
@@ -1108,18 +1096,17 @@ without any warranty.
                         </attributes>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkLabel" id="resultat_label2">
                         <property name="can_focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="valign">center</property>
+                        <property name="halign">start</property>
+                        <property name="valign">start</property>
                         <property name="label" translatable="yes">U(n)=2^(n+1)</property>
-                        <property name="justify">fill</property>
                         <property name="selectable">True</property>
                         <attributes>
                           <attribute name="weight" value="bold"/>
@@ -1127,8 +1114,8 @@ without any warranty.
                         </attributes>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
@@ -1149,6 +1136,7 @@ without any warranty.
                     <property name="halign">center</property>
                     <property name="image">image1</property>
                     <property name="always_show_image">True</property>
+                    <signal name="clicked" handler="on_ajouter_resultat_button_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -1160,6 +1148,8 @@ without any warranty.
                   <object class="GtkLabel" id="error_label">
                     <property name="can_focus">False</property>
                     <property name="label" translatable="yes">Erreur!</property>
+                    <property name="justify">center</property>
+                    <property name="selectable">True</property>
                     <attributes>
                       <attribute name="foreground" value="#ffff00000000"/>
                     </attributes>

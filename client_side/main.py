@@ -8,13 +8,22 @@ from NamesInputDialog      import NamesInputDialog
 from ConnexionDialog       import ConnexionDialog
 from client                import ClientTCP
 import socket
+from fractions import Fraction
+from numbers import Number
 
 def vector_to_matrix(v,n,p):
         m=[[0 for i in range(p)] for j in range(n)]
         for i in range(n):
                 for j in range(p):
-                        m[i][j]=v[i*n+j]
+                        m[i][j]=v[i*p+j]
         return m
+def matrix_to_vector(matrix):
+	v=[]
+	for u in matrix:
+		v+=u
+	n=len(matrix)
+	p=len(matrix[0])
+	return (v,n,p)
 
 class LAC_ApplicationWindow:
         def __init__(self):
@@ -23,7 +32,7 @@ class LAC_ApplicationWindow:
                 self.operandes="MATRICE"		
                 self.matrix_list={}
                 self.builder=Gtk.Builder()
-                self.builder.add_from_file("LAC_Applicationwindow.glade")
+                self.builder.add_from_file("./glade/LAC_Applicationwindow.glade")
 
                 self.window=self.builder.get_object("window")  
                 self.spinner=self.builder.get_object('spinner')
@@ -74,6 +83,8 @@ class LAC_ApplicationWindow:
                 self.premiere_op_label.set_text("Choisir une matrice")
                 self.famille_box1.set_visible(False)
                 self.error_label.hide()
+                self.resultat_label2.hide()
+                self.resultat_label1.hide()
 
                 self.combobox1_type="MATRICE"
                 self.combobox2_type=""
@@ -84,81 +95,170 @@ class LAC_ApplicationWindow:
                 chaine='{'+', '.join(list_name)+'}'
                 textbuffer.set_text(chaine)
 
-        def on_add_matrix_button_clicked(self,button):
+	def add_matrix(self,name,obj):
+		m,n,p=obj
+		if name in self.matrix_list:
+			flags=Gtk.DialogFlags.MODAL
+			mess_type=Gtk.MessageType.WARNING
+			buttons=Gtk.ButtonsType.OK_CANCEL
+			message='Il existe un object possedant le meme nom.\nVoulez-vous ecrasez ce dernier?'
+			dialog=Gtk.MessageDialog(self.window,flags,mess_type,buttons , message)
+			response=dialog.run()
+			if response == Gtk.ResponseType.CANCEL:
+				dialog.destroy()
+				return
+			dialog.destroy()
+			for item in self.liststore:
+				if item[0]==name:
+					item[1:]=[n,p]
+		else:
+			self.liststore.append([name,n,p])	
+		self.matrix_list[name]=obj
+                self.set_combobox_list(self.comboboxtext1,self.combobox1_type)
+                self.set_combobox_list(self.comboboxtext2,self.combobox2_type)
+        def on_add_matrix_button_clicked(self, button):
                 dialog=MatrixEditorDialog(parent=self.window)
                 response=dialog.run()
                 if response == Gtk.ResponseType.OK:
-                        name,m,n,p=dialog.get_object()
-                        self.matrix_list[name]=(m,n,p)
-                        self.liststore.append([name,n,p])
-                        self.set_combobox_list(self.comboboxtext1,self.combobox1_type)
-                        self.set_combobox_list(self.comboboxtext2,self.combobox2_type)
+                        name,obj=dialog.get_object()
+                        self.add_matrix(name,obj)
                 dialog.destroy()
-        def on_ajouter_resultat_button_clicked(self,button):
-                if self.operator=="PASSAGE":
-                        NamesInputDialog("Quel nom voulez-vous donner a la matrice de passage?","Quel nom voulez-vous donner a la matrice diagonale?")
-                elif self.operator=="VECTEURS PROPRES":
-                        dialog=NamesInputDialog("Avec quel prefixe voulez-vous nommer les vecteurs propres?")
-                else :
-                        dialog=NamesInputDialog("Quel nom voulez-vous donner a la matrice?")
+        def add_result_to_objects_list(self):
+                if self.result and self.result2:
+                        dialog=NamesInputDialog(twice=True,parent=self.window)
+                     	
+                elif self.result:
+                 	dialog=NamesInputDialog(parent=self.window)
+                 	
+               	else:
+               	 	return
 
                 response=dialog.run()
-                if response == Gtk.ResponseType.OK :
-                        self.ajouter_resultat_button.hide()
-                        name1,name2=dialog.get_names()
-                        print(name1,name2)
+        	if response == Gtk.ResponseType.OK :
+                	self.ajouter_resultat_button.hide()
+                	name,name2=dialog.get_names()
+                	print (name,self.result)
+                	self.add_matrix(name,matrix_to_vector(self.result))
+                	
+                	if name2:
+                		print (name2,self.result2)
+                		self.add_matrix(name2,matrix_to_vector(self.result2))
+                        
                 dialog.destroy()
         def set_matrix_data(self,label,data=[]):
-        	label.show()
-        	text=''
-        
-        	for u in data:
-        		ch='       '.join(['{: f}'.format(x) for x in u])
-        		text+=ch+'\n'
-        	label.set_text(text)
-
-        def get_operandes(self):
-                if self.operandes=='MATRICE':
-                        name=self.comboboxtext1.get_active_text().split('(')[0]
-                        v,n,p=self.matrix_list[name]
-                        matrix=vector_to_matrix(v,n,p)
-                        return matrix
-
+        	
+        	if isinstance(data,Number):
+        		label.set_text(str(Fraction(data).limit_denominator()).ljust(20 ))
+        	else:
+        		self.ajouter_resultat_button.show()
+        		text=''
+			for u in data:
+				ch='                       '.join([str(Fraction(x).limit_denominator()).ljust(20) for x in u])
+				text+=ch+'\n'
+			print text
+			label.set_text(text)
+		label.show()
+        def get_operande_matrix(self,num=1):
+        	if num==1:
+        		active=self.comboboxtext1.get_active_text()
+        	else:
+        		active=self.comboboxtext2.get_active_text()
+		if active:
+        		tab=active.split('(',1)
+			if len(tab)>0:
+				name=tab[0]
+				matrix1=vector_to_matrix(self.matrix_list[name])
+				return matrix1
+		       	else:
+		       		return None
+	       	else:
+	       		return None
+	def get_operande_vector(self,num=1):
+        	if num==1:
+        		active=self.comboboxtext1.get_active_text()
+        	else:
+        		active=self.comboboxtext2.get_active_text()
+		if active:
+        		tab=active.split('(')
+			if len(tab)>0:
+				name=tab[0]
+				vector,n,p=self.matrix_list[name]
+				return vector
+		       	else:
+		       		return None
+	       	else:
+	       		return None
+	def get_operande_base(self,num=1):
+		
+		if num==1:
+			txtbuf=self.textbuffer1
+		else:
+			txtbuf=self.textbuffer2
+		start,end=txtbuf.get_bounds()
+		if start.is_end():
+			return None
+		else:
+			text=txtbuf.get_text(start,end,include_hidden_chars=False)
+			text=text[1:]
+			text=text[:-1]
+		
+			print text
+			return [ self.matrix_list[name][0] for name in text.split(',') ]
+        def get_operandes(self):		
+	        if self.operandes=='MATRICE':
+	        	return self.get_operande_matrix(1)
+	      	elif self.operandes=='DEUX_MATRICES' or self.operandes=='MIXTE':
+	      		oper1=self.get_operande_matrix(1)
+	      		oper2=self.get_operande_matrix(2)
+	      	elif self.operandes=='MATRICE_VECTEUR':
+	      		oper1=self.get_operande_matrix(1)
+	      		oper2=self.get_operande_vector(2)
+	      	elif self.operandes=='MATRICE_ENTIER':
+	      		oper1=self.get_operande_matrix(1)
+	      		oper2=self.spinbutton.get_value_as_int()
+	      	elif self.operandes=='DEUX_BASES':
+	      		oper1=self.get_operande_base(1)
+	      		oper2=self.get_operande_base(2)
+	      		print oper1,oper2
+	      	else:
+	      		return None
+	      		
+		if oper1 and oper2:
+			return (oper1,oper2)
+      		else:
+      			return None
 
         def on_envoyer_button_clicked(self,button):
-                self.spinner.start()
-                self.client_tcp.set_operation(self.operator,self.get_operandes())
-
-
+                 operandes=self.get_operandes()
+                 if operandes:
+		 	self.client_tcp.set_operation(self.operator,operandes)
+		 	self.spinner.start()
+		 else:
+		 	self.error_label.set_text('Veuillez choisir tous les champs')
+                        self.error_label.show()
+		 
         def display_result(self,result):
                 self.spinner.stop()
+                
                 self.error_label.hide()
                 self.resultat_label2.hide()
                 self.resultat_label1.hide()
                 self.ajouter_resultat_button.hide()
+                self.result2=None
+                self.result=None
 
 		print 'Le resultat est %s'%result
                 if 'error' in result:
-                        if result['error']=='Singular matrix':
-                                self.error_label.set_text("La matrice saisie n'est pas inversible!")
+                      	self.error_label.set_text(result['error'])
                         self.error_label.show()
                         return
                 elif 'result' in result:
-                        
-                        if not 'result2' in result and not hasattr(result['result'], "__len__"):
-
-                        	self.resultat_label1.set_text("Resultat: %s"%self.operator)
-                        	self.resultat_label1.show()    
-		                self.ajouter_resultat_button.hide()
-			elif not 'result2' in result and hasattr(result['result'], "__len__"): 
-				self.ajouter_resultat_button.show()
-				self.set_matrix_data(self.resultat_label1,result['result'])
-			else:
-					
-			        self.set_matrix_data(self.resultat_label1,[[1.5,2.0],[2.5,-3.7]])
-			        self.set_matrix_data(self.resultat_label2,[[1.5,2.0],[2.5,-3.7]])
-                		
-            
+                	self.set_matrix_data(self.resultat_label1,result['result'])
+               		self.result=result['result']
+                	if 'result2' in result:
+			        self.set_matrix_data(self.resultat_label2,result['result2'])
+			        self.result2=result['result2']
+                	
         def get_selected_name(self):
                 selection=self.treeview.get_selection()
                 model,self.treeiter=selection.get_selected()
@@ -171,11 +271,12 @@ class LAC_ApplicationWindow:
                 dialog=MatrixEditorDialog(name,m,n,p,parent=self.window)
                 response=dialog.run()
                 if response == Gtk.ResponseType.OK :
-                        name,m,n,p=dialog.get_object()
-                        self.matrix_list[name]=(m,n,p)
+                        name,obj=dialog.get_object()
+                        self.matrix_list[name]=obj
+                        m,n,p=obj
                         self.liststore[self.treeiter][1:]=[n,p]
-                        """elif response == Gtk.ResponseType.CANCEL :"""
-                        dialog.destroy()
+             
+                dialog.destroy()
         def on_selection_changed(self,selection):
                 model,self.treeiter=selection.get_selected()
 
@@ -210,7 +311,7 @@ class LAC_ApplicationWindow:
                 elif mode=="VECTEUR":
                         for obj in self.matrix_list:
                                 n=self.matrix_list[obj][1]
-                                p=self.matrix_list[obj][2]
+                                p=self.matrix_list[obj][2]                                
                                 if n==1 or p==1:
                                         print (self.matrix_list[obj])
                                         combobox.append_text(obj+'('+str(n)+"x"+str(p)+')')

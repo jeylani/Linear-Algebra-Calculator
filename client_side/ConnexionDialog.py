@@ -5,7 +5,7 @@ from gi.repository import Gtk
 class ConnexionDialog:
 	def __init__(self,parent=None):
         	self.builder=Gtk.Builder()
-        	self.builder.add_from_file('ConnexionDialog.glade')
+        	self.builder.add_from_file('./glade/ConnexionDialog.glade')
         	self.dialog=self.builder.get_object('dialog')
         	self.dialog.set_transient_for(parent)
         	
@@ -20,8 +20,8 @@ class ConnexionDialog:
     	def destroy(self):
         	self.dialog.destroy()
         def show_error(self):
-        	errorlabel=self.builder.get_object("errorlabel")
-        	errorlabel.show()
+        	error_box=self.builder.get_object("error_box")
+        	error_box.show_all()
         def get_address(self):
         	ip=self.entry.get_text()
         	port=self.spinbutton.get_value_as_int()

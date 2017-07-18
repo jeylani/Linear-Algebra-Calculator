@@ -40,12 +40,15 @@ class ClientTCP(threading.Thread):
 	def close(self):
 		self.sock.close()
 
-#client=ClientTCP('127.0.0.1', 15555)
-#client.start()
+def afficher(result):
+	print result
+
+"""client=ClientTCP('127.0.0.1', 15555,afficher)
+client.start()
 #print "Lancement du thread termine attente d'une reponse"
 
-"""try:
-	client=ClientTCP('127.0.0.1', 15555)	
+try:
+	
 	while True:
 		
 		operateur=input("Quel est l'operateur : ")
@@ -57,13 +60,12 @@ class ClientTCP(threading.Thread):
 		else:
 			operandes=input("Donner la liste des operandes separees par des virgules: ")
 		
-			result=client.send_operation(operateur, operandes)
-			if 'error' in result:
-				print('ERREUR:%s'%result['error'])
-			elif 'result' in result:
-				print("Le resultat du calcul:%s" %result['result'])
+			result=client.set_operation(operateur, operandes)
+			
 except socket.error as e:
 	print "Erreur socket (%s)"%e
 finally:
 	if 'client' in globals():
-		client.close()"""
+		client.close()
+		"""
+	

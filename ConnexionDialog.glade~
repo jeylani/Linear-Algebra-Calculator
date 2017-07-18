@@ -12,12 +12,15 @@
   <object class="GtkDialog" id="dialog">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Linear Algebra Calculator</property>
+    <property name="resizable">False</property>
     <property name="modal">True</property>
+    <property name="window_position">center-on-parent</property>
     <property name="type_hint">dialog</property>
     <property name="urgency_hint">True</property>
     <property name="gravity">north-east</property>
     <child internal-child="vbox">
       <object class="GtkBox">
+        <property name="width_request">600</property>
         <property name="can_focus">False</property>
         <property name="margin_top">14</property>
         <property name="orientation">vertical</property>
@@ -43,7 +46,7 @@
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Authentification au Serveur distant</property>
+            <property name="label" translatable="yes">Connexion au Serveur distant</property>
             <attributes>
               <attribute name="style" value="normal"/>
               <attribute name="foreground" value="#4e4e9a9a0606"/>
@@ -136,19 +139,43 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="errorlabel">
+          <object class="GtkBox" id="error_box">
             <property name="can_focus">False</property>
             <property name="halign">center</property>
-            <property name="label" translatable="yes">Impossible de joindre le serveur !
-Vérifier la connection réseau puis les informations.</property>
-            <attributes>
-              <attribute name="foreground" value="#efef29292929"/>
-            </attributes>
+            <property name="spacing">30</property>
+            <child>
+              <object class="GtkImage">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="stock">gtk-dialog-warning</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="errorlabel">
+                <property name="can_focus">False</property>
+                <property name="halign">center</property>
+                <property name="label" translatable="yes">Impossible de joindre le serveur !
+Vérifier votre connectivité réseau et les infos de connection.</property>
+                <attributes>
+                  <attribute name="foreground" value="#efef29292929"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">4</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>

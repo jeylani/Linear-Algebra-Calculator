@@ -7,7 +7,7 @@ class MatrixEditorDialog:
     	self.row=nbLigne
         self.col=nbCol
         self.builder=Gtk.Builder()
-        self.builder.add_from_file("MatrixEditorDialog.glade")
+        self.builder.add_from_file("./glade/MatrixEditorDialog.glade")
         self.dialog=self.builder.get_object('dialog')
         self.dialog.set_transient_for(parent)
         self.save_button=self.dialog.add_button('Enregistrer',Gtk.ResponseType.OK)
